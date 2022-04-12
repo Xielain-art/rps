@@ -30,7 +30,7 @@ function rps(shapes) {
         flag = moves.some((move) => move === +playerChoice)
     }
 
-    console.log(whoWin(shapes, playerChoice, computerChoice))
+    console.log(whoWin(shapes, playerChoice - 1, computerChoice))
     console.log(`KEY ${key}`)
 }
 
@@ -83,18 +83,17 @@ const choice = (choice, moves) => {
 }
 
 const whoWin = (shapes, playerChoice, computerChoice) => {
-    let pC= playerChoice - 1
-    if (computerChoice === pC) {
+    if (computerChoice === playerChoice) {
         return 'Draw'
     }
     let half = (shapes.length - 1) / 2
-    if (pC > computerChoice) {
-        if (pC - computerChoice <= half) {
+    if (playerChoice > computerChoice) {
+        if (playerChoice - computerChoice <= half) {
             return 'You lose!'
         }
         return 'You win!'
     }
-    if (computerChoice - pC <= half) {
+    if (computerChoice - playerChoice <= half) {
         return 'You win!'
     }
     return 'You lose!'
