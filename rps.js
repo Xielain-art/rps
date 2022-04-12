@@ -5,19 +5,18 @@ const prompt = require('prompt-sync')({sigint: true})
 
 function rps(shapes) {
     if (shapes.length < 3) {
-        return new Error('The number of figures should be >= 3 \nExample: Rock , Paper, Scissors')
+        return console.log(new Error('The number of figures should be >= 3 \nExample: Rock , Paper, Scissors').message)
     }
     if (shapes.length % 2 === 0) {
-        return new Error('The number of figures must be odd\nExample: Rock , Paper, Scissors')
+        return console.log(new Error('The number of figures must be odd\nExample: Rock , Paper, Scissors').message)
     }
     if (!shapes.every((value, index) => shapes.lastIndexOf(value) === index)) {
-        return new Error('The entered shapes must be unique\nExample: Rock , Paper, Scissors')
+        return console.log(new Error('The entered shapes must be unique\nExample: Rock , Paper, Scissors').message)
     }
     let computerChoice = generateChoice(shapes.length - 1)
-    console.log(computerChoice)
+    // let computerChoice = 0
     let key = sha3_256(String(computerChoice))
     let HMAC = generateHMAC(key, String(shapes[computerChoice]))
-
     console.log(`HMAC ${HMAC}`)
     let moves = generateMoves(shapes)
     console.log(generateMenu(shapes, moves))
@@ -84,22 +83,24 @@ const choice = (choice, moves) => {
 }
 
 const whoWin = (shapes, playerChoice, computerChoice) => {
-    if (computerChoice === playerChoice) {
+    let pC= playerChoice - 1
+    if (computerChoice === pC) {
         return 'Draw'
     }
     let half = (shapes.length - 1) / 2
-    if (playerChoice > computerChoice) {
-        if (playerChoice - computerChoice <= half) {
+    if (pC > computerChoice) {
+        if (pC - computerChoice <= half) {
             return 'You lose!'
         }
         return 'You win!'
     }
-    if (computerChoice - playerChoice <= half) {
+    if (computerChoice - pC <= half) {
         return 'You win!'
     }
     return 'You lose!'
 }
 
 
+// rps(['1', '2', '3'])
 rps(process.argv.slice(2))
 
